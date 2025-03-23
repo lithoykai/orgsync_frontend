@@ -53,9 +53,17 @@ class _DepartmentListScreenState extends State<DepartmentListScreen> {
                 listenable: controller,
                 builder: (ctx, child) {
                   if (controller.departments.isEmpty) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                      child: Text(
+                        'Sem departamentos em nosso banco de dados...',
+                      ),
+                    );
                   }
                   List<DepartmentEntity> departments = controller.departments;
+                  if (controller.state is DepartmentLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
                   return ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),

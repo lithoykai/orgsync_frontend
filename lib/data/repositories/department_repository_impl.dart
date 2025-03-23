@@ -21,17 +21,10 @@ class DepartmentRepositoryImpl implements DepartmentRepository {
     int departmentId,
     String userId,
   ) async {
-    // TODO: implement addMemberToDepartment
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failure, DepartmentEntity>> createDepartment(
-    DepartmentEntity department,
-  ) async {
     try {
-      final model = DepartmentModel.fromEntity(department);
-      final response = await _datasource.createDepartment(model);
+      final response = await _datasource.addUsersInDepartment(departmentId, [
+        userId,
+      ]);
       var entity = response.toEntity();
       return Right(entity);
     } on DioException catch (e) {
@@ -40,16 +33,48 @@ class DepartmentRepositoryImpl implements DepartmentRepository {
       return Left(
         AppFailure(
           msg:
-              'Erro desconhecido ao buscar os departamentos. Tente novamente mais tarde.',
+              'Erro desconhecido ao adicionar o colaborador no departamentos. Tente novamente mais tarde.',
         ),
       );
     }
   }
 
   @override
-  Future<void> deleteDepartment(DepartmentEntity department) async {
-    // TODO: implement deleteDepartment
-    throw UnimplementedError();
+  Future<Either<Failure, void>> createDepartment(
+    DepartmentEntity department,
+    List<String> users,
+  ) async {
+    try {
+      final model = DepartmentModel.fromEntity(department);
+      final response = await _datasource.createDepartment(model, users);
+      return Right(response);
+    } on DioException catch (e) {
+      return _handleDioError(e);
+    } catch (e) {
+      return Left(
+        AppFailure(
+          msg:
+              'Erro desconhecido ao criar um departamento. Tente novamente mais tarde.',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteDepartment(int departmentID) async {
+    try {
+      final response = await _datasource.deleteDepartment(departmentID);
+      return Right(response);
+    } on DioException catch (e) {
+      return _handleDioError(e);
+    } catch (e) {
+      return Left(
+        AppFailure(
+          msg:
+              'Erro desconhecido ao tentar deletar um departamento. Tente novamente mais tarde.',
+        ),
+      );
+    }
   }
 
   @override
@@ -103,7 +128,7 @@ class DepartmentRepositoryImpl implements DepartmentRepository {
       return Left(
         AppFailure(
           msg:
-              'Erro desconhecido ao buscar os departamentos. Tente novamente mais tarde.',
+              'Erro desconhecido ao remover o usuário do departamento. Tente novamente mais tarde.',
         ),
       );
     }

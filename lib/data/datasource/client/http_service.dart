@@ -3,10 +3,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:orgsync/domain/services/token_provider.dart';
-import 'package:orgsync/infra/failure/failure.dart';
 
 @lazySingleton
 class HttpService {
@@ -31,10 +29,6 @@ class HttpService {
           handler.next(options);
         },
         onError: (error, handler) async {
-          // if (error.response?.statusCode == 401) {
-          //   await _tokenProvider.clearToken();
-          //   //todo: login page
-          // }
           handler.next(error);
         },
       ),

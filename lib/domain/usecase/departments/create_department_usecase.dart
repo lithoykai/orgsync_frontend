@@ -11,7 +11,10 @@ class CreateDepartmentUsecase {
   CreateDepartmentUsecase({required DepartmentRepository repository})
     : _repository = repository;
 
-  Future<Either<Failure, DepartmentEntity>> call(DepartmentEntity entity) {
-    return _repository.createDepartment(entity);
+  Future<Either<Failure, void>> call(
+    DepartmentEntity entity,
+    List<String> users,
+  ) {
+    return _repository.createDepartment(entity, users);
   }
 }

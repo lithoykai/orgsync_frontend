@@ -11,7 +11,7 @@ class DepartmentRemoteDatasourceImpl implements DepartmentRemoteDatasource {
 
   DepartmentRemoteDatasourceImpl({required HttpService httpService})
     : _httpService = httpService;
-
+  @override
   Future<List<DepartmentModel>> getDepartments() async {
     try {
       final response = await _httpService.get('/api/department/all');
@@ -23,6 +23,7 @@ class DepartmentRemoteDatasourceImpl implements DepartmentRemoteDatasource {
     }
   }
 
+  @override
   Future<DepartmentModel> getDepartment(int id) async {
     try {
       final response = await _httpService.get('/api/department/id/$id');
@@ -32,18 +33,27 @@ class DepartmentRemoteDatasourceImpl implements DepartmentRemoteDatasource {
     }
   }
 
-  Future<DepartmentModel> createDepartment(DepartmentModel department) async {
+  @override
+  Future<void> createDepartment(
+    DepartmentModel department,
+    List<String> users,
+  ) async {
     try {
       final response = await _httpService.post(
-        '/api/department',
-        data: department.toJson(),
+        '/api/department/',
+        data: {
+          "name": department.name,
+          "description": department.description,
+          "enabled": true,
+          "users": users,
+        },
       );
-      return DepartmentModel.fromJson(response.data);
     } catch (e) {
       rethrow;
     }
   }
 
+  @override
   Future<DepartmentModel> updateDepartment(DepartmentModel department) async {
     try {
       final response = await _httpService.put(
@@ -56,6 +66,7 @@ class DepartmentRemoteDatasourceImpl implements DepartmentRemoteDatasource {
     }
   }
 
+  @override
   Future<void> deleteDepartment(int id) async {
     try {
       await _httpService.delete('/api/department/$id');
@@ -64,6 +75,7 @@ class DepartmentRemoteDatasourceImpl implements DepartmentRemoteDatasource {
     }
   }
 
+  @override
   Future<DepartmentModel> addUsersInDepartment(
     int departmentId,
     List<String> userId,

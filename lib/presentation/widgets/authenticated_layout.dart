@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:orgsync/di/injectable.dart';
 import 'package:orgsync/infra/constants/app_router.dart';
 import 'package:orgsync/presentation/screens/auth/controller/auth_controller.dart';
-import 'package:orgsync/presentation/widgets/menu_custom_item.dart';
 import 'package:orgsync/presentation/widgets/web_side_menu.dart';
 
 class AuthenticatedLayout extends StatefulWidget {

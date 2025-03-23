@@ -1,9 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:orgsync/di/injectable.dart';
 import 'package:orgsync/domain/entities/department_entity.dart';
 import 'package:orgsync/domain/entities/user_entity.dart';
+import 'package:orgsync/presentation/screens/user/controller/user_controller.dart';
 import 'package:orgsync/presentation/widgets/custom_text_field.dart';
+import 'package:orgsync/presentation/widgets/user_picker_modal.dart';
 
 class DepartmentForm extends StatefulWidget {
   final DepartmentEntity? initialDepartment;
@@ -21,14 +24,18 @@ class DepartmentForm extends StatefulWidget {
 }
 
 class _DepartmentFormState extends State<DepartmentForm> {
+  final UserController userController = getIt<UserController>();
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final Set<UserEntity> _selectedUsers = {};
+  final Set<String> _selectedUsers = {};
 
   @override
   void initState() {
     super.initState();
+
+    userController.getAllUsers();
+
     if (widget.initialDepartment != null) {
       _nameController.text = widget.initialDepartment!.name;
       _descriptionController.text = widget.initialDepartment!.description;
@@ -36,55 +43,20 @@ class _DepartmentFormState extends State<DepartmentForm> {
   }
 
   void _openUserPickerModal() async {
-    final List<UserEntity> users = []; // TODO: buscar usuários
+    final List<UserEntity> users = userController.users;
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder:
-          (context) => StatefulBuilder(
-            builder: (context, setModalState) {
-              return Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      decoration: const InputDecoration(
-                        hintText: 'Buscar usuário',
-                      ),
-                      onChanged: (value) {
-                        // TODO: buscar usuários pelo nome
-                      },
-                    ),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      height: 300,
-                      child: ListView.builder(
-                        itemCount: users.length,
-                        itemBuilder: (context, index) {
-                          final user = users[index];
-                          final selected = _selectedUsers.contains(user);
-                          return ListTile(
-                            title: Text(user.name),
-                            subtitle: Text(user.email),
-                            trailing: selected ? const Icon(Icons.check) : null,
-                            onTap: () {
-                              setModalState(() {
-                                if (selected) {
-                                  _selectedUsers.remove(user);
-                                } else {
-                                  _selectedUsers.add(user);
-                                }
-                              });
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              );
+          (context) => UserPickerModal(
+            allUsers: users,
+            initialSelected:
+                widget.initialDepartment != null
+                    ? widget.initialDepartment!.users!.map((e) => e.id).toSet()
+                    : {},
+            onConfirm: (users) {
+              _selectedUsers.addAll(users);
             },
           ),
     );
@@ -95,7 +67,7 @@ class _DepartmentFormState extends State<DepartmentForm> {
     widget.onSubmit(
       _nameController.text.trim(),
       _descriptionController.text.trim(),
-      _selectedUsers.map((e) => e.id).toSet(),
+      _selectedUsers,
     );
   }
 

@@ -25,6 +25,7 @@ import '../domain/repository/department_repository.dart' as _i205;
 import '../domain/repository/user_repository.dart' as _i541;
 import '../domain/services/token_provider.dart' as _i346;
 import '../domain/usecase/departments/create_department_usecase.dart' as _i275;
+import '../domain/usecase/departments/delete_department_usecase.dart' as _i598;
 import '../domain/usecase/departments/get_all_department_use_case.dart'
     as _i614;
 import '../domain/usecase/departments/remove_user_department_usecase.dart'
@@ -73,13 +74,13 @@ _i174.GetIt $initGetIt(
       datasource: gh<_i650.DepartmentRemoteDatasource>(),
     ),
   );
-  gh.factory<_i614.GetAllDepartmentUseCase>(
-    () => _i614.GetAllDepartmentUseCase(
+  gh.factory<_i275.CreateDepartmentUsecase>(
+    () => _i275.CreateDepartmentUsecase(
       repository: gh<_i205.DepartmentRepository>(),
     ),
   );
-  gh.factory<_i275.CreateDepartmentUsecase>(
-    () => _i275.CreateDepartmentUsecase(
+  gh.factory<_i614.GetAllDepartmentUseCase>(
+    () => _i614.GetAllDepartmentUseCase(
       repository: gh<_i205.DepartmentRepository>(),
     ),
   );
@@ -87,6 +88,14 @@ _i174.GetIt $initGetIt(
     () => _i648.RemoveUserDepartmentUsecase(
       repository: gh<_i205.DepartmentRepository>(),
     ),
+  );
+  gh.factory<_i598.DeleteDepartmentUsecase>(
+    () => _i598.DeleteDepartmentUsecase(
+      repository: gh<_i205.DepartmentRepository>(),
+    ),
+  );
+  gh.factory<_i820.DeleteUserUsecase>(
+    () => _i820.DeleteUserUsecase(userRepository: gh<_i541.UserRepository>()),
   );
   gh.factory<_i88.GetAllUsersUseCase>(
     () => _i88.GetAllUsersUseCase(userRepository: gh<_i541.UserRepository>()),
@@ -98,16 +107,6 @@ _i174.GetIt $initGetIt(
   gh.factory<_i388.UpdateUserUsecase>(
     () => _i388.UpdateUserUsecase(userRepository: gh<_i541.UserRepository>()),
   );
-  gh.factory<_i820.DeleteUserUsecase>(
-    () => _i820.DeleteUserUsecase(userRepository: gh<_i541.UserRepository>()),
-  );
-  gh.lazySingleton<_i630.DepartmentController>(
-    () => _i630.DepartmentController(
-      getAllUseCase: gh<_i614.GetAllDepartmentUseCase>(),
-      createDepartmentUsecase: gh<_i275.CreateDepartmentUsecase>(),
-      removeUserDepartmentUsecase: gh<_i648.RemoveUserDepartmentUsecase>(),
-    ),
-  );
   gh.factory<_i128.AuthenticateUseCase>(
     () => _i128.AuthenticateUseCase(repository: gh<_i541.UserRepository>()),
   );
@@ -116,6 +115,14 @@ _i174.GetIt $initGetIt(
       tokenProvider: gh<_i346.TokenProvider>(),
       authenticateUseCase: gh<_i128.AuthenticateUseCase>(),
       getCurrentUserUsecase: gh<_i524.GetCurrentUserUsecase>(),
+    ),
+  );
+  gh.lazySingleton<_i630.DepartmentController>(
+    () => _i630.DepartmentController(
+      getAllUseCase: gh<_i614.GetAllDepartmentUseCase>(),
+      createDepartmentUsecase: gh<_i275.CreateDepartmentUsecase>(),
+      removeUserDepartmentUsecase: gh<_i648.RemoveUserDepartmentUsecase>(),
+      deleteDepartmentUsecase: gh<_i598.DeleteDepartmentUsecase>(),
     ),
   );
   gh.lazySingleton<_i298.UserController>(
