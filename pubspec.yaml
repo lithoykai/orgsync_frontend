@@ -1,37 +1,16 @@
 name: orgsync
 description: "Sistema SaaS de gerenciamento organizacional"
-
-
 publish_to: 'none' 
-
-
-
-
-
-
-
-
-
-
-
-
 
 version: 1.0.0+1
 
 environment:
   sdk: ^3.7.2
 
-
-
-
-
-
-
 dependencies:
   flutter:
     sdk: flutter
 
-  
   
   cupertino_icons: ^1.0.8
   dio: ^5.4.1
@@ -56,50 +35,10 @@ dev_dependencies:
   json_serializable: ^6.9.4
 
   
-  
-  
-  
-  
   flutter_lints: ^5.0.0
 
 
-
-
-
 flutter:
-
-  
-  
-  
   uses-material-design: true
 
-  
-  
-  
-  
-
-  
-  
-
-  
-  
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+ 
