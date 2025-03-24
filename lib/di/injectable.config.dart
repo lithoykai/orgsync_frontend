@@ -30,6 +30,7 @@ import '../domain/usecase/departments/get_all_department_use_case.dart'
     as _i614;
 import '../domain/usecase/departments/remove_user_department_usecase.dart'
     as _i648;
+import '../domain/usecase/departments/update_department_usecase.dart' as _i1071;
 import '../domain/usecase/user/authenticate_use_case.dart' as _i128;
 import '../domain/usecase/user/delete_user_usecase.dart' as _i820;
 import '../domain/usecase/user/get_all_users_use_case.dart' as _i88;
@@ -79,6 +80,11 @@ _i174.GetIt $initGetIt(
       repository: gh<_i205.DepartmentRepository>(),
     ),
   );
+  gh.factory<_i598.DeleteDepartmentUsecase>(
+    () => _i598.DeleteDepartmentUsecase(
+      repository: gh<_i205.DepartmentRepository>(),
+    ),
+  );
   gh.factory<_i614.GetAllDepartmentUseCase>(
     () => _i614.GetAllDepartmentUseCase(
       repository: gh<_i205.DepartmentRepository>(),
@@ -89,8 +95,8 @@ _i174.GetIt $initGetIt(
       repository: gh<_i205.DepartmentRepository>(),
     ),
   );
-  gh.factory<_i598.DeleteDepartmentUsecase>(
-    () => _i598.DeleteDepartmentUsecase(
+  gh.factory<_i1071.UpdateDepartmentUsecase>(
+    () => _i1071.UpdateDepartmentUsecase(
       repository: gh<_i205.DepartmentRepository>(),
     ),
   );
@@ -110,19 +116,20 @@ _i174.GetIt $initGetIt(
   gh.factory<_i128.AuthenticateUseCase>(
     () => _i128.AuthenticateUseCase(repository: gh<_i541.UserRepository>()),
   );
-  gh.singleton<_i529.AuthController>(
-    () => _i529.AuthController(
-      tokenProvider: gh<_i346.TokenProvider>(),
-      authenticateUseCase: gh<_i128.AuthenticateUseCase>(),
-      getCurrentUserUsecase: gh<_i524.GetCurrentUserUsecase>(),
-    ),
-  );
   gh.lazySingleton<_i630.DepartmentController>(
     () => _i630.DepartmentController(
       getAllUseCase: gh<_i614.GetAllDepartmentUseCase>(),
       createDepartmentUsecase: gh<_i275.CreateDepartmentUsecase>(),
       removeUserDepartmentUsecase: gh<_i648.RemoveUserDepartmentUsecase>(),
       deleteDepartmentUsecase: gh<_i598.DeleteDepartmentUsecase>(),
+      updateDepartmentUsecase: gh<_i1071.UpdateDepartmentUsecase>(),
+    ),
+  );
+  gh.singleton<_i529.AuthController>(
+    () => _i529.AuthController(
+      tokenProvider: gh<_i346.TokenProvider>(),
+      authenticateUseCase: gh<_i128.AuthenticateUseCase>(),
+      getCurrentUserUsecase: gh<_i524.GetCurrentUserUsecase>(),
     ),
   );
   gh.lazySingleton<_i298.UserController>(

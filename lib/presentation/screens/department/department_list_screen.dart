@@ -134,14 +134,62 @@ class _DepartmentListScreenState extends State<DepartmentListScreen> {
                                     ),
                                   ),
                                   authController.isAdmin
-                                      ? IconButton(
-                                        icon: const Icon(Icons.edit_outlined),
-                                        onPressed:
-                                            () =>
-                                                Navigator.of(context).pushNamed(
+                                      ? Row(
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(Icons.delete),
+                                            onPressed: () {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (
+                                                      dialogContext,
+                                                    ) => AlertDialog(
+                                                      title: const Text(
+                                                        'Deseja deletar',
+                                                      ),
+                                                      content: Text(
+                                                        'Essa é uma ação permanente, deseja deletar o departamento?',
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed:
+                                                              () => controller
+                                                                  .deleteDepartment(
+                                                                    departments[index],
+                                                                  ),
+                                                          child: const Text(
+                                                            'Sim',
+                                                          ),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed:
+                                                              () =>
+                                                                  Navigator.of(
+                                                                    context,
+                                                                  ).pop(),
+                                                          child: const Text(
+                                                            'Não',
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                              );
+                                            },
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.edit_outlined,
+                                            ),
+                                            onPressed:
+                                                () => Navigator.of(
+                                                  context,
+                                                ).pushNamed(
                                                   AppRouter.departmentsEditPage,
                                                   arguments: departments[index],
                                                 ),
+                                          ),
+                                        ],
                                       )
                                       : Container(),
                                   IconButton(

@@ -9,6 +9,7 @@ abstract interface class DepartmentRepository {
   );
   Future<Either<Failure, DepartmentEntity>> updateDepartment(
     DepartmentEntity department,
+    List<String> users,
   );
   Future<Either<Failure, void>> deleteDepartment(int departmentID);
   Future<Either<Failure, List<DepartmentEntity>>> getAllDepartment();

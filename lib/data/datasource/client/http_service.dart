@@ -39,7 +39,11 @@ class HttpService {
         LogInterceptor(
           requestBody: true,
           responseBody: true,
-          logPrint: (object) => debugPrint(object.toString()),
+          logPrint: (object) {
+            if (kDebugMode) {
+              debugPrint(object.toString());
+            }
+          },
         ),
       );
     }

@@ -15,6 +15,7 @@ class UserListScreen extends StatefulWidget {
 
 class _UserListScreenState extends State<UserListScreen> {
   final controller = getIt<UserController>();
+  final authController = getIt<AuthController>();
 
   @override
   void initState() {
@@ -181,47 +182,66 @@ class _UserListScreenState extends State<UserListScreen> {
                                       ],
                                     ),
                                   ),
-                                  IconButton(
-                                    icon: const Icon(Icons.edit_outlined),
-                                    onPressed:
-                                        () => Navigator.of(context).pushNamed(
-                                          AppRouter.usersEditPage,
-                                          arguments: user,
-                                        ),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.delete_outline),
-                                    onPressed: () async {
-                                      showDialog(
-                                        context: context,
-                                        builder:
-                                            (dialogContext) => AlertDialog(
-                                              title: const Text(
-                                                'Deseja deletar',
-                                              ),
-                                              content: Text(
-                                                'Essa é uma ação permanente, deseja deletar o usuário?',
-                                              ),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed:
-                                                      () =>
-                                                          _deleteUser(user.id),
-                                                  child: const Text('Sim'),
-                                                ),
-                                                TextButton(
-                                                  onPressed:
-                                                      () =>
-                                                          Navigator.of(
-                                                            context,
-                                                          ).pop(),
-                                                  child: const Text('Não'),
-                                                ),
-                                              ],
+                                  user.id != authController.currentUser!.id
+                                      ? Row(
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.edit_outlined,
                                             ),
-                                      );
-                                    },
-                                  ),
+                                            onPressed:
+                                                () => Navigator.of(
+                                                  context,
+                                                ).pushNamed(
+                                                  AppRouter.usersEditPage,
+                                                  arguments: user,
+                                                ),
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.delete_outline,
+                                            ),
+                                            onPressed: () async {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (
+                                                      dialogContext,
+                                                    ) => AlertDialog(
+                                                      title: const Text(
+                                                        'Deseja deletar',
+                                                      ),
+                                                      content: Text(
+                                                        'Essa é uma ação permanente, deseja deletar o usuário?',
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed:
+                                                              () => _deleteUser(
+                                                                user.id,
+                                                              ),
+                                                          child: const Text(
+                                                            'Sim',
+                                                          ),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed:
+                                                              () =>
+                                                                  Navigator.of(
+                                                                    context,
+                                                                  ).pop(),
+                                                          child: const Text(
+                                                            'Não',
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      )
+                                      : Container(),
                                 ],
                               ),
                             ),

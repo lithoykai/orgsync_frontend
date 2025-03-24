@@ -26,7 +26,6 @@ class _CreateDepartmentScreenState extends State<CreateDepartmentScreen> {
         title: 'Criar Departamento',
         child: DepartmentForm(
           onSubmit: (String name, String description, Set<String> users) {
-            final String uniqueId = uuid.v4();
             DepartmentEntity newDepartment = DepartmentEntity(
               id: math.Random().nextInt(1000),
               name: name,

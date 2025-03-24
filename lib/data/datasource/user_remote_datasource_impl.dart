@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 import 'package:orgsync/data/datasource/client/http_service.dart';
 import 'package:orgsync/data/datasource/user_remote_datasource.dart';
 import 'package:orgsync/data/models/user_model.dart';
-import 'package:orgsync/domain/entities/user_entity.dart';
 import 'package:orgsync/domain/services/token_provider.dart';
 
 @Injectable(as: UserRemoteDataSource)
@@ -74,6 +73,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDataSource {
     }
   }
 
+  @override
   Future<UserModel> getUser() async {
     try {
       final response = await _http.get("/api/users/");
@@ -98,9 +98,8 @@ class UserRemoteDatasourceImpl implements UserRemoteDataSource {
         data: {"id": id, "name": name, "email": email, "password": password},
       );
 
-      print(departmentId);
       if (response.statusCode == 200 && departmentId != null) {
-        final departmentResponse = await _http.put(
+        await _http.put(
           "/api/department/users/$departmentId",
           data: {
             "users": [id],
@@ -115,7 +114,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDataSource {
   @override
   Future<void> deleteUser(String id) async {
     try {
-      final response = await _http.delete('/api/users/$id');
+      await _http.delete('/api/users/$id');
     } catch (e) {
       rethrow;
     }

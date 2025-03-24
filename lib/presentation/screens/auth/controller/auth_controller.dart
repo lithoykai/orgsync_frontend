@@ -6,7 +6,6 @@ import 'package:orgsync/domain/entities/user_entity.dart';
 import 'package:orgsync/domain/services/token_provider.dart';
 import 'package:orgsync/domain/usecase/user/authenticate_use_case.dart';
 import 'package:orgsync/domain/usecase/user/get_current_user_usecase.dart';
-import 'package:orgsync/infra/failure/failure.dart';
 
 @singleton
 class AuthController extends ChangeNotifier {

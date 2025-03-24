@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:orgsync/di/injectable.dart';
-import 'package:orgsync/infra/constants/app_router.dart';
 import 'package:orgsync/presentation/screens/auth/controller/auth_controller.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/custom_button.dart';

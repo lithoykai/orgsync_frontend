@@ -5,7 +5,8 @@ import 'package:orgsync/presentation/screens/auth/controller/auth_controller.dar
 import 'package:orgsync/presentation/widgets/menu_custom_item.dart';
 
 class WebSideMenu extends StatelessWidget {
-  const WebSideMenu({super.key});
+  bool? isMobile = false;
+  WebSideMenu({super.key, this.isMobile});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,10 @@ class WebSideMenu extends StatelessWidget {
     final menuWidth = width * 0.2;
 
     return Container(
-      width: menuWidth.clamp(200.0, 300.0),
+      width:
+          isMobile!
+              ? menuWidth.clamp(300.0, 500.0)
+              : menuWidth.clamp(200.0, 300.0),
       decoration: BoxDecoration(
         color: colorScheme.surface,
         border: Border(

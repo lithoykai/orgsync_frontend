@@ -2,8 +2,6 @@ import 'package:injectable/injectable.dart';
 import 'package:orgsync/data/datasource/client/http_service.dart';
 import 'package:orgsync/data/datasource/department_remote_datasource.dart';
 import 'package:orgsync/data/models/department_model.dart';
-import 'package:orgsync/domain/entities/department_entity.dart';
-import 'package:orgsync/domain/entities/user_entity.dart';
 
 @Injectable(as: DepartmentRemoteDatasource)
 class DepartmentRemoteDatasourceImpl implements DepartmentRemoteDatasource {
@@ -54,11 +52,19 @@ class DepartmentRemoteDatasourceImpl implements DepartmentRemoteDatasource {
   }
 
   @override
-  Future<DepartmentModel> updateDepartment(DepartmentModel department) async {
+  Future<DepartmentModel> updateDepartment(
+    DepartmentModel department,
+    List<String> users,
+  ) async {
     try {
       final response = await _httpService.put(
         '/api/department/${department.id}',
-        data: department.toJson(),
+        data: {
+          "name": department.name,
+          "description": department.description,
+          "enabled": true,
+          "users": users,
+        },
       );
       return DepartmentModel.fromJson(response.data);
     } catch (e) {

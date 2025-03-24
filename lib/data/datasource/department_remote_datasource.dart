@@ -4,7 +4,10 @@ abstract interface class DepartmentRemoteDatasource {
   Future<List<DepartmentModel>> getDepartments();
   Future<DepartmentModel> getDepartment(int id);
   Future<void> createDepartment(DepartmentModel department, List<String> users);
-  Future<DepartmentModel> updateDepartment(DepartmentModel department);
+  Future<DepartmentModel> updateDepartment(
+    DepartmentModel department,
+    List<String> users,
+  );
   Future<void> deleteDepartment(int id);
   Future<DepartmentModel> addUsersInDepartment(
     int departmentId,

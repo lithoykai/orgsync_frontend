@@ -5,6 +5,7 @@ import 'package:orgsync/domain/usecase/departments/create_department_usecase.dar
 import 'package:orgsync/domain/usecase/departments/delete_department_usecase.dart';
 import 'package:orgsync/domain/usecase/departments/get_all_department_use_case.dart';
 import 'package:orgsync/domain/usecase/departments/remove_user_department_usecase.dart';
+import 'package:orgsync/domain/usecase/departments/update_department_usecase.dart';
 
 @LazySingleton()
 class DepartmentController extends ChangeNotifier {
@@ -12,13 +13,16 @@ class DepartmentController extends ChangeNotifier {
   final CreateDepartmentUsecase _createDepartmentUsecase;
   final RemoveUserDepartmentUsecase _removeUserDepartmentUsecase;
   final DeleteDepartmentUsecase _deleteDepartmentUsecase;
+  final UpdateDepartmentUsecase _updateDepartmentUsecase;
 
   DepartmentController({
     required GetAllDepartmentUseCase getAllUseCase,
     required CreateDepartmentUsecase createDepartmentUsecase,
     required RemoveUserDepartmentUsecase removeUserDepartmentUsecase,
     required DeleteDepartmentUsecase deleteDepartmentUsecase,
+    required UpdateDepartmentUsecase updateDepartmentUsecase,
   }) : _getAllUseCase = getAllUseCase,
+       _updateDepartmentUsecase = updateDepartmentUsecase,
        _createDepartmentUsecase = createDepartmentUsecase,
        _removeUserDepartmentUsecase = removeUserDepartmentUsecase,
        _deleteDepartmentUsecase = deleteDepartmentUsecase;
@@ -70,7 +74,7 @@ class DepartmentController extends ChangeNotifier {
         throw failure;
       },
       (_) {
-        deleteFromList(entity);
+        getAllDepartment();
         state = DepartmentIdle();
         notifyListeners();
       },
@@ -99,6 +103,25 @@ class DepartmentController extends ChangeNotifier {
     List<String> users,
   ) async {
     final result = await _createDepartmentUsecase.call(entity, users);
+    result.fold(
+      (failure) {
+        state = DepartmentError(failure.message);
+        notifyListeners();
+        throw failure;
+      },
+      (_) {
+        getAllDepartment();
+        state = DepartmentIdle();
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> updateDepartment(
+    DepartmentEntity entity,
+    List<String> users,
+  ) async {
+    final result = await _updateDepartmentUsecase.call(entity, users);
     result.fold(
       (failure) {
         state = DepartmentError(failure.message);

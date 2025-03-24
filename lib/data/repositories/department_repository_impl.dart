@@ -2,10 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:orgsync/data/datasource/department_remote_datasource.dart';
-import 'package:orgsync/data/datasource/department_remote_datasource_impl.dart';
 import 'package:orgsync/data/models/department_model.dart';
 import 'package:orgsync/domain/entities/department_entity.dart';
-import 'package:orgsync/domain/entities/user_entity.dart';
 import 'package:orgsync/domain/repository/department_repository.dart';
 import 'package:orgsync/infra/failure/failure.dart';
 
@@ -137,9 +135,25 @@ class DepartmentRepositoryImpl implements DepartmentRepository {
   @override
   Future<Either<Failure, DepartmentEntity>> updateDepartment(
     DepartmentEntity department,
+    List<String> users,
   ) async {
-    // TODO: implement updateDepartment
-    throw UnimplementedError();
+    try {
+      final response = await _datasource.updateDepartment(
+        DepartmentModel.fromEntity(department),
+        users,
+      );
+      DepartmentEntity departmentEntity = response.toEntity();
+      return Right(departmentEntity);
+    } on DioException catch (e) {
+      return _handleDioError(e);
+    } catch (e) {
+      return Left(
+        AppFailure(
+          msg:
+              'Erro desconhecido ao atualizar o departamento. Tente novamente mais tarde.',
+        ),
+      );
+    }
   }
 
   Either<Failure, T> _handleDioError<T>(DioException e) {

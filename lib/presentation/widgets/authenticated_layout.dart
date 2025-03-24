@@ -48,19 +48,13 @@ class _AuthenticatedLayoutState extends State<AuthenticatedLayout> {
           if (isWeb) WebSideMenu(),
           Expanded(
             child: Scaffold(
+              drawer: isWeb ? null : WebSideMenu(isMobile: true),
               appBar: AppBar(
                 automaticallyImplyLeading: !isWeb ? true : false,
 
                 title: Text(widget.title),
                 centerTitle: !isWeb,
-                actions: [
-                  if (!isWeb)
-                    IconButton(
-                      icon: const Icon(Icons.person_outline),
-                      onPressed: () {},
-                    ),
-                  if (widget.actions != null) ...widget.actions!,
-                ],
+                actions: [if (widget.actions != null) ...widget.actions!],
               ),
               body: widget.child,
             ),

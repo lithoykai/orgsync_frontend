@@ -20,18 +20,21 @@ class _UserEditScreenState extends State<UserEditScreen> {
     if (arg != null && arg is UserEntity) {
       user = arg;
     }
-    if (user == null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          Navigator.of(context).pushReplacementNamed(AppRouter.dashboardPage);
-        }
-      });
-    }
+
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (user == null) {
+      Future.microtask(() {
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed(AppRouter.dashboardPage);
+        }
+      });
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     return Scaffold(
       body: AuthenticatedLayout(
         title: 'Editar usuário',
