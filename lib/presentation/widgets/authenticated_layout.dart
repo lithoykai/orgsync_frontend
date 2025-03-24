@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:orgsync/di/injectable.dart';
 import 'package:orgsync/infra/constants/app_router.dart';
 import 'package:orgsync/presentation/screens/auth/controller/auth_controller.dart';
-import 'package:orgsync/presentation/widgets/web_side_menu.dart';
+import 'package:orgsync/presentation/widgets/custom_side_menu.dart';
 
 class AuthenticatedLayout extends StatefulWidget {
   final Widget child;
@@ -45,10 +45,10 @@ class _AuthenticatedLayoutState extends State<AuthenticatedLayout> {
     return Scaffold(
       body: Row(
         children: [
-          if (isWeb) WebSideMenu(),
+          if (isWeb) CustomSideMenu(isMobile: false),
           Expanded(
             child: Scaffold(
-              drawer: isWeb ? null : WebSideMenu(isMobile: true),
+              drawer: isWeb ? null : CustomSideMenu(isMobile: true),
               appBar: AppBar(
                 automaticallyImplyLeading: !isWeb ? true : false,
 
